@@ -1,0 +1,7 @@
+---
+# Handlers for the firewall role
+
+- name: Reload UFW
+  ansible.builtin.command:
+    cmd: ufw reload
+  changed_when: true

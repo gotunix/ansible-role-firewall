@@ -1,0 +1,23 @@
+---
+# firewall role — task orchestrator
+
+- name: Uninstall firewall
+  ansible.builtin.include_tasks: uninstall.yaml
+  tags:
+    - firewall
+    - uninstall
+  when: firewall_state == 'absent'
+
+- name: Install UFW
+  ansible.builtin.include_tasks: install.yaml
+  tags:
+    - firewall
+    - install
+  when: firewall_state == 'present'
+
+- name: Configure firewall rules
+  ansible.builtin.include_tasks: configure.yaml
+  tags:
+    - firewall
+    - configure
+  when: firewall_state == 'present'

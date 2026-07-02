@@ -1,0 +1,17 @@
+---
+# Uninstall UFW
+
+- name: Disable UFW
+  community.general.ufw:
+    state: disabled
+  failed_when: false
+
+- name: Remove UFW package
+  ansible.builtin.package:
+    name: ufw
+    state: absent
+
+- name: Remove managed marker
+  ansible.builtin.file:
+    path: /etc/ufw/.ansible-managed
+    state: absent

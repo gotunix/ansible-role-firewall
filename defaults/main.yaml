@@ -1,0 +1,42 @@
+---
+# firewall role — default variables
+
+# ---- State ----
+firewall_state: present              # present | absent
+
+# ---- Default policies ----
+firewall_default_incoming: deny       # deny | allow | reject
+firewall_default_outgoing: allow
+firewall_default_routed: deny         # for forwarding (containers, VPN)
+
+# ---- Enable/logging ----
+firewall_enabled: true
+firewall_logging: "on"               # on | off | low | medium | high | full
+
+# ---- Port/service rules ----
+# Each item: { rule, port, proto, from (optional), to (optional), comment, interface_in (optional), interface_out (optional) }
+firewall_rules:
+  - { rule: allow, port: 22, proto: tcp, comment: "SSH" }
+  # example with interface:
+  # - { rule: allow, port: 80, proto: tcp, interface_in: eth0, comment: "HTTP on eth0" }
+
+# ---- Rate-limited rules ----
+# Deny connections from an IP that has >6 hits in 30s
+firewall_rate_limit_rules: []
+#  - { port: 22, proto: tcp, comment: "SSH brute force protection" }
+
+# ---- Forwarding/route rules (containers, VPN) ----
+firewall_route_rules: []
+#  - { rule: allow, interface_in: br0, interface_out: enp1s0, comment: "nspawn outbound" }
+#  - { rule: allow, interface_in: enp1s0, interface_out: br0, comment: "nspawn return" }
+#  - { rule: allow, interface_in: enp1s0, interface_out: br0, port: 80, proto: tcp, to: 10.0.0.5, comment: "nspawn web traffic only" }
+
+# ---- Raw NAT rules for /etc/ufw/before.rules ----
+# Lines inserted into a *nat block before *filter
+firewall_raw_rules: []
+#  - "-A POSTROUTING -s 192.168.100.0/24 -o enp1s0 -j MASQUERADE"
+
+# ---- Raw Filter rules for /etc/ufw/before.rules ----
+# Inserted directly into the *filter block, useful for custom interface logging!
+firewall_raw_filter_rules: []
+#  - "-A ufw-before-forward -i ve-mycontainer -j LOG --log-prefix \"[CONTAINER-MYAPP] \" --log-level 4"

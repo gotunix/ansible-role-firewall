@@ -1,0 +1,13 @@
+---
+# Role metadata
+galaxy_info:
+  author: gotunix
+  description: Declarative UFW firewall management.
+  company: gotunix
+  license: MIT
+  min_ansible_version: "2.9"
+  role_name: firewall
+  namespace: gotunix
+
+collections:
+  - community.general

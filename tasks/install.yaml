@@ -1,0 +1,7 @@
+---
+# Install UFW
+
+- name: Install UFW package
+  ansible.builtin.package:
+    name: ufw
+    state: present
